@@ -2,7 +2,6 @@
 *.pyc
 __pycache__/
 data_info.txt
-workspace/
 .vscode/
 .idea/
 .env
