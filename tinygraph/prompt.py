@@ -32,51 +32,66 @@ For each identified triplet, provide:
 ## Your response
 """
 
+# 获取实体信息
 GET_ENTITY = """
 ## Goal
 
-You are an experienced machine learning teacher. 
-You need to identify the key concepts related to machine learning that the article requires students to master. For each concept, provide a brief description that explains its relevance and importance in the context of the article.
+You are an expert information extraction specialist. Your task is to identify **distinct, concrete, and important named entities** mentioned in the provided article text. These entities should represent key concepts, methods, models, techniques, or specific terms that are central to the article's subject matter.
+
+For each identified entity:
+1.  **Extract its canonical name** (the most standard, full, or widely recognized form).
+2.  **Provide a concise, self-contained description** that explains what the entity is and, if clear from the context, its role or significance in the article. The description should be informative on its own.
+
+## Entity Extraction Principles
+- **Focus on Specifics**: Prefer specific named entities (e.g., "Random Forest Algorithm") over overly broad categories (e.g., "Algorithm").
+- **Avoid Duplication**: Do not list the same entity multiple times with slightly different names. Choose the best canonical name.
+- **Relevance is Key**: Prioritize entities that are directly discussed, applied, or are central to the article's narrative.
+- **Use Context**: The description should reflect how the entity is treated in the article, not just a generic definition.
 
 ## Example
 
-article:
+**Article:**
 "In the latest study, we explored the potential of using machine learning algorithms for disease prediction. We used support vector machines (SVM) and random forest algorithms to analyze medical data. The results showed that these models performed well in predicting disease risk through feature selection and cross-validation. In particular, the random forest model showed better performance in dealing with overfitting problems. In addition, we discussed the application of deep learning in medical image analysis."
 
-response:
+**Response:**
 <concept>
     <name>Support Vector Machine (SVM)</name>
-    <description>A supervised learning model used for classification and regression tasks, particularly effective in high-dimensional spaces.</description>
+    <description>A supervised learning model used for classification and regression; noted in the article for its application in disease prediction from medical data.</description>
 </concept>
 <concept>
     <name>Random Forest Algorithm</name>
-    <description>An ensemble learning method that builds multiple decision trees and merges them together to get a more accurate and stable prediction, often used to reduce overfitting.</description>
+    <description>An ensemble learning method that constructs multiple decision trees; highlighted in the article for its superior performance in managing overfitting for disease risk prediction.</description>
 </concept>
 <concept>
     <name>Feature Selection</name>
-    <description>The process of selecting a subset of relevant features for use in model construction, crucial for improving model performance and reducing complexity.</description>
+    <description>The process of identifying and using the most relevant variables from data; mentioned as a technique that contributed to effective model performance in the disease prediction study.</description>
+</concept>
+<concept>
+    <name>Cross-validation</name>
+    <description>A model validation technique used to assess how the results of a statistical analysis will generalize to an independent dataset; employed in the study to evaluate disease prediction models.</description>
 </concept>
 <concept>
     <name>Overfitting</name>
-    <description>A common issue where a model learns the details and noise in the training data to the extent that it negatively impacts the model's performance on new data.</description>
+    <description>A modeling error where a function aligns too closely to a limited set of data points; presented as a problem that the Random Forest algorithm helped to mitigate in the prediction task.</description>
 </concept>
 <concept>
     <name>Deep Learning</name>
-    <description>A subset of machine learning that uses neural networks with many layers to model complex patterns in large datasets, often applied in image and speech recognition tasks.</description>
+    <description>A subset of machine learning based on artificial neural networks; referenced in the article regarding its potential application in medical image analysis.</description>
 </concept>
 
-## Format
+## Output Format
+- Present each identified entity within the `<concept>` tag.
+- Inside each `<concept>`, use the `<name>` tag for the canonical entity name and the `<description>` tag for its contextual description.
+- List concepts in a logical order (e.g., as they appear or by significance).
 
-Wrap each concept in the HTML tag <concept>, and include the name of the concept in the <name> tag and its description in the <description> tag.
-
-## Article
-
+## Input Article
 {text}
 
-## Your response
+## Your Response
+Please analyze the provided article and extract the key entities according to the instructions above.
 """
 
-
+# 实体消歧
 ENTITY_DISAMBIGUATION = """
 ## Goal
 Given multiple entities with the same name, determine if they can be merged into a single entity. If merging is possible, provide the transformation from entity id to entity id.
@@ -93,7 +108,7 @@ Given multiple entities with the same name, determine if they can be merged into
        {"name": "Entity A", "entity id": "entity-2"},
        {"name": "Entity A", "entity id": "entity-3"}
    ]
-   
+
 Your response should be:
 
 <transformation>{"entity-2": "entity-1", "entity-3": "entity-1"}</transformation>
@@ -120,6 +135,7 @@ Provide the following information:
 ## Your response
 """
 
+# 获取三元组信息
 GET_TRIPLETS = """
 ## Goal
 Identify and extract all the relationships between the given concepts from the provided text.
@@ -184,6 +200,7 @@ Please follow the steps below to help students solve the question:
 4. Return to TERMINATE after solving the problem
 """
 
+# 生成社区报告
 GEN_COMMUNITY_REPORT = """
 ## Role
 You are an AI assistant that helps a human analyst to perform general information discovery. 

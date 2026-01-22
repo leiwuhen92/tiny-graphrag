@@ -393,13 +393,13 @@
         subject = entity_map.get(subject_id)
         object = entity_map.get(object_id)
         if subject and object:
-            self.create_triplet(subject, triplet["predicate"], object)
+            self.create_triplet_2_db_2_db(subject, triplet["predicate"], object)
     ```
 - 功能：将提取的三元组（triplets）存储到Neo4j图数据库中
 - 实现步骤：
     1. 遍历all_triplets列表，逐个处理每个三元组
     2. 根据三元组中的subject_id和object_id，从entity_map中获取对应的实体信息
-    3. 如果主语和宾语实体都存在，则调用self.create_triplet方法，将三元组存储到Neo4j中。其中的create_triplet方法能够通过Cypher查询语句将实体和关系插入到数据库中。
+    3. 如果主语和宾语实体都存在，则调用self.create_triplet_2_db_2_db方法，将三元组存储到Neo4j中。其中的create_triplet_2_db_2_db方法能够通过Cypher查询语句将实体和关系插入到数据库中。
 ###### 1.3.7 生成社区内容
 - 对应代码    
     ```python
@@ -480,7 +480,7 @@
                 topk_similar_entities_context
             )
             ```
-    4. 获得前k个最相似的关系，依据的方法是：在`get_relations`方法中调用`get_node_edgs`方法，获取该实体的所有关系边，认为这些边就是similar relation。对应代码为：
+    4. 获得前k个最相似的关系，依据的方法是：在`get_relations`方法中调用`get_node_edges`方法，获取该实体的所有关系边，认为这些边就是similar relation。对应代码为：
         ```python
         topk_similar_relations_context = self.get_relations(
         topk_similar_entities_context, query

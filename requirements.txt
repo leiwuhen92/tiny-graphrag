@@ -1,4 +1,6 @@
 neo4j
 numpy
 tqdm
-zhipuai
+openai
+langchain
+langchain_core
